@@ -41,15 +41,13 @@ public class VerifyActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Khởi tạo Firebase
-        FirebaseApp.initializeApp(this);
-
+        FirebaseApp.initializeApp(this); // Khởi tạo FirebaseApp
         mAuth = FirebaseAuth.getInstance();
         setContentView(R.layout.activity_verify);
 
         AnhXa();
 
-        SharedPreferences sharedPreferences = this.getSharedPreferences("ThongTinNguoiDung", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("ThongTinNguoiDung", Context.MODE_PRIVATE);
         String soDienThoai = sharedPreferences.getString("soDienThoai", "");
         sendOtp(soDienThoai, false);
     }
@@ -78,7 +76,7 @@ public class VerifyActivity extends AppCompatActivity {
 
                             @Override
                             public void onVerificationFailed(@NonNull FirebaseException e) {
-                                Utils.ThongBao(getApplicationContext(), "OTP Không Chính Xác");
+                                Utils.ThongBao(getApplicationContext(), "Xảy ra lỗi khi gửi OTP");
                                 setInProgress(false);
                             }
 
@@ -87,7 +85,7 @@ public class VerifyActivity extends AppCompatActivity {
                                 super.onCodeSent(s, forceResendingToken);
                                 verificationCode = s;
                                 resendingToken = forceResendingToken;
-                                Utils.ThongBao(getApplicationContext(), "OTP Gửi lại thành công");
+                                Utils.ThongBao(getApplicationContext(), "Đã gửi lại OTP");
                                 setInProgress(false);
                             }
                         });
@@ -100,13 +98,12 @@ public class VerifyActivity extends AppCompatActivity {
     }
 
     private void verify(PhoneAuthCredential phoneAuthCredential) {
-        // Gửi thông báo và di chuyển đến trang khác
         trangThai = "ok";
         SharedPreferences sharedPreferences = getSharedPreferences("TrangThai", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("flag", trangThai);
         editor.apply();
-        Utils.ThongBao(getApplicationContext(), "Xác Thực Thành Công ");
+        Utils.ThongBao(getApplicationContext(), "Xác thực thành công");
         Intent i = new Intent(VerifyActivity.this, HomeActivity.class);
         startActivity(i);
     }
