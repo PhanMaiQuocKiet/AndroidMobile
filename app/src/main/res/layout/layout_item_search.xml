@@ -1,0 +1,68 @@
+<!-- res/layout/your_item_layout.xml -->
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="190dp"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/size10dp"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="6dp"
+    app:cardUseCompatPadding="true"
+    app:cardPreventCornerOverlap="false"
+    app:cardBackgroundColor="@color/vanglv1">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/imgAnhSanPham_Search"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:background="@drawable/drop_shipping_icon"
+            android:scaleType="centerCrop" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/black"/>
+        <TextView
+            android:id="@+id/tvTenProducts_Search"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Ten san pham "
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:maxLines="2"
+            android:ellipsize="end"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:id="@+id/tvGiaSanPham_Search"
+                android:layout_marginTop="@dimen/size10dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="price"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                />
+
+            <CheckBox
+                android:id="@+id/cbYeuThich_Search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/heart_checkbox_selector"
+                android:layout_gravity="center_vertical"
+                android:scaleX="0.5"
+                android:scaleY="0.5"
+                android:layout_marginStart="@dimen/size15dp"/>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

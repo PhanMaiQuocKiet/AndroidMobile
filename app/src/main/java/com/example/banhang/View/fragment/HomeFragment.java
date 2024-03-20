@@ -9,7 +9,11 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -29,6 +33,7 @@ import android.widget.Toast;
 import android.widget.ViewFlipper;
 import com.example.banhang.View.RecycleViewGioHang.*;
 import com.example.banhang.R;
+import com.example.banhang.View.RecycleViewSearch.SearchAdapter;
 import com.example.banhang.View.RecyclerViewCategory.CategoryAdapter;
 import com.example.banhang.View.RecyclerViewCategory.ProductsCategory;
 import com.example.banhang.View.*;
@@ -52,6 +57,8 @@ public class HomeFragment extends Fragment implements ProductAdapter.UserCallBac
      ImageView imgCart;
      TextView tvCartItemCount;
      SwipeRefreshLayout swipeRefreshLayout;
+     SearchView searchView;
+
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -114,7 +121,7 @@ public class HomeFragment extends Fragment implements ProductAdapter.UserCallBac
             }
         });
         flipHandler.sendEmptyMessageDelayed(0, FLIP_INTERVAL);
-        databaseHelper = new CreateDatabase(getActivity());
+        databaseHelper = new CreateDatabase(getContext());
 
         // Lấy số lượng sản phẩm trong giỏ hàng từ SharedPreferences
         SharedPreferences cartPreferences = getContext().getSharedPreferences("DuLieu", MODE_PRIVATE);
@@ -165,8 +172,23 @@ public class HomeFragment extends Fragment implements ProductAdapter.UserCallBac
                 startActivity(i);
             }
         });
+        searchView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fmn;
+                fmn = new SearchFragment();
+                loadFragment(fmn);
+            }
+        });
         return view;
 
+
+    }
+    void loadFragment(Fragment fmNew){
+        FragmentTransaction fmTran = getActivity().getSupportFragmentManager().beginTransaction();
+        fmTran.replace(R.id.mainFragment, fmNew);
+        fmTran.addToBackStack(null);
+        fmTran.commit();
 
     }
     // Phương thức reload lại trang
@@ -186,6 +208,7 @@ public class HomeFragment extends Fragment implements ProductAdapter.UserCallBac
         imgCart = view.findViewById(R.id.imgCart);
         tvCartItemCount = view.findViewById(R.id.tvCartItemCount);
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
+        searchView = view.findViewById(R.id.search_user);
     }
     void LoadDataProducts(Context context){
         listProducts = Utils.LoadDaTaProducts(context);
@@ -215,4 +238,6 @@ public class HomeFragment extends Fragment implements ProductAdapter.UserCallBac
         i.putExtra("srcAnh", srcAnh);
         startActivity(i);
     }
+    //truy van dua vao ten san pham
+
 }

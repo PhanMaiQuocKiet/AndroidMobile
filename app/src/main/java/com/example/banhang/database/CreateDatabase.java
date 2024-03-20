@@ -15,7 +15,7 @@ public class CreateDatabase extends SQLiteOpenHelper {
     private final static String DATABASE_NAME = "ShoppingSouvenir";
 
     //Version
-    private final static int VERSION = 14;
+    private final static int VERSION = 16;
 
 
     // Bảng Người dùng
@@ -168,6 +168,8 @@ public class CreateDatabase extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TB_DANH_GIA_KHACH_HANG);
         db.execSQL("DROP TABLE IF EXISTS " + TB_LOAI_SAN_PHAM);
         db.execSQL("DROP TABLE IF EXISTS " + TB_YEU_THICH);
+        db.execSQL("DROP TABLE IF EXISTS " + TB_GIO_HANG);
+
         // Tạo lại bảng mới
         onCreate(db);
     }
