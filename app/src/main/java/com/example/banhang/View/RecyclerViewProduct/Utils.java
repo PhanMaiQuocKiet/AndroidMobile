@@ -56,7 +56,53 @@ public class Utils {
 
         return categoryList;
     }
+    @SuppressLint("Range")
+    public static ArrayList<Products> LoadProductInCategoryFromDatabase(Context context, String categoryId) {
+        CreateDatabase createDatabase = new CreateDatabase(context);
+        ArrayList<Products> productList = new ArrayList<>();
+        SQLiteDatabase db = createDatabase.getReadableDatabase();
 
+        // Câu truy vấn đã được sửa để kết hợp với mã danh mục sản phẩm đầu vào
+        String query = "SELECT " + CreateDatabase.CL_TEN_SAN_PHAM + ", " + CreateDatabase.CL_GIA_BAN + ", " + CreateDatabase.CL_ANH_SAN_PHAM +
+                " FROM " + CreateDatabase.TB_LOAI_SAN_PHAM +
+                " INNER JOIN " + CreateDatabase.TB_SAN_PHAM +
+                " ON " + CreateDatabase.TB_LOAI_SAN_PHAM + "." + CreateDatabase.CL_THE_LOAI_SAN_PHAM_ID +
+                " = " + CreateDatabase.TB_SAN_PHAM + "." + CreateDatabase.CL_THE_LOAI_SAN_PHAM_ID +
+                " WHERE " + CreateDatabase.TB_SAN_PHAM + "." + CreateDatabase.CL_LOAI_SAN_PHAM_ID + " = ?";
+
+        // Tham số của câu truy vấn
+        String[] selectionArgs = {categoryId};
+
+        Cursor cursor = db.rawQuery(query, selectionArgs);
+
+        if (cursor.moveToFirst()) {
+            do {
+                String productName = cursor.getString(cursor.getColumnIndex(CreateDatabase.CL_TEN_SAN_PHAM));
+                String productPrice = cursor.getString(cursor.getColumnIndex(CreateDatabase.CL_GIA_BAN));
+                String productImage = cursor.getString(cursor.getColumnIndex(CreateDatabase.CL_ANH_SAN_PHAM));
+
+                Products product = new Products(context, productName, productPrice, productImage);
+                productList.add(product);
+            } while (cursor.moveToNext());
+        }
+
+
+        cursor.close();
+        db.close();
+
+        return productList;
+    }
+
+    public static ArrayList<Products> LoadDataProductInCategory(Context context, String categoryId) {
+        ArrayList<Products> lstUser = new ArrayList<>();
+        ArrayList<Products> products = Utils.LoadProductInCategoryFromDatabase(context,categoryId);
+
+        for (Products item : products) {
+            lstUser.add(new Products(context, item.getName(),item.getPrice(), item.getImage()));
+        }
+
+        return lstUser;
+    }
     public static ArrayList<ProductsCategory> LoadDataCategory(Context context) {
         ArrayList<ProductsCategory> lstUser = new ArrayList<>();
         ArrayList<ProductsCategory> categoryList = Utils.loadCategoriesFromDatabase(context);
@@ -323,5 +369,6 @@ public class Utils {
 
         return lstProducts;
     }
+
 
 }

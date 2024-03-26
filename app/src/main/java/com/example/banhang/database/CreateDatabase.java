@@ -281,6 +281,28 @@ public class CreateDatabase extends SQLiteOpenHelper {
 
     //getCL
     @SuppressLint("Range")
+    public String GetCLHoVaTenKhachHang_Detail(String tendangnhap){
+        String hoVaTen = null;
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // Query để lấy chức vụ từ cơ sở dữ liệu
+        String query = "SELECT " + CreateDatabase. CL_TEN_KHACH_HANG  + " FROM " + CreateDatabase.TB_DANG_NHAP_KHACH_HANG +
+                " WHERE " + CreateDatabase.CL_TEN_DANGNHAP + " = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{tendangnhap});
+
+        // Kiểm tra xem có dữ liệu hay không
+        if (cursor.moveToFirst()) {
+            hoVaTen = cursor.getString(cursor.getColumnIndex(CreateDatabase.CL_TEN_KHACH_HANG ));
+        }
+
+        // Đóng cursor và database
+        cursor.close();
+        db.close();
+
+        return hoVaTen;
+    }
+    //getCL
+    @SuppressLint("Range")
     public String GetCLHoVaTenKhachHang(String cmnd){
         String hoVaTen = null;
         SQLiteDatabase db = this.getReadableDatabase();
@@ -510,6 +532,7 @@ public class CreateDatabase extends SQLiteOpenHelper {
 
         return value;
     }
+
 
 }
 

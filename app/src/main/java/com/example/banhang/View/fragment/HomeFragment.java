@@ -35,6 +35,7 @@ import com.example.banhang.View.*;
 import com.example.banhang.database.CreateDatabase;
 import com.example.banhang.View.RecyclerViewProduct.*;
 import java.util.ArrayList;
+import com.example.banhang.View.RecycleViewDonHangTheoTheLoai.*;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -43,15 +44,16 @@ import java.util.ArrayList;
  *
  */
 
-public class HomeFragment extends Fragment implements ProductAdapter.UserCallBack{
+public class HomeFragment extends Fragment implements ProductAdapter.UserCallBack,ProductsInCategoryAdapter.UserCallBack{
     CreateDatabase databaseHelper;
-    RecyclerView rvListProduct;
-    ArrayList<Products> listProducts;
+    RecyclerView rvListProduct,rvListProductCategory;
+    ArrayList<Products> listProducts,listProductsCategory;
      ProductAdapter productAdapter;
      ProductAdapterAdmin productAdapterAdmin;
      ImageView imgCart;
      TextView tvCartItemCount;
      SwipeRefreshLayout swipeRefreshLayout;
+    ProductsInCategoryAdapter productsInCategoryAdapter;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -105,15 +107,7 @@ public class HomeFragment extends Fragment implements ProductAdapter.UserCallBac
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         AnhXa(view);
-        // Xử lý sự kiện vuốt màn hình xuống để reload lại trang
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                reloadFragment(); // Gọi phương thức reloadFragment() để tải lại trang
-                swipeRefreshLayout.setRefreshing(false); // Kết thúc quá trình làm mới
-            }
-        });
-        flipHandler.sendEmptyMessageDelayed(0, FLIP_INTERVAL);
+
         databaseHelper = new CreateDatabase(getActivity());
 
         // Lấy số lượng sản phẩm trong giỏ hàng từ SharedPreferences
@@ -152,8 +146,17 @@ public class HomeFragment extends Fragment implements ProductAdapter.UserCallBac
             rvListProduct.setLayoutManager(gridLayoutManager);
         }
         else {
+            // Load dữ liệu sản phẩm cho người dùng thường
+            // Load danh sách sản phẩm trong một danh mục cụ thể
+            LoadDataProductsInCategory(getActivity(), "1"); // Thay "1" bằng mã danh mục cụ thể mong muốn
+            productsInCategoryAdapter = new ProductsInCategoryAdapter(listProductsCategory, databaseHelper,this);
+            rvListProductCategory.setAdapter(productsInCategoryAdapter);
+            GridLayoutManager gridLayoutManager2 = new GridLayoutManager(getActivity(), 2);
+            rvListProductCategory.setLayoutManager(gridLayoutManager2);
+
+            // Load tất cả sản phẩm cho RecyclerView chính
             LoadDataProducts(getActivity());
-            productAdapter = new ProductAdapter(listProducts,databaseHelper, this);
+            productAdapter = new ProductAdapter(listProducts, databaseHelper, this);
             rvListProduct.setAdapter(productAdapter);
             GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
             rvListProduct.setLayoutManager(gridLayoutManager);
@@ -185,7 +188,7 @@ public class HomeFragment extends Fragment implements ProductAdapter.UserCallBac
         viewFlipper = view.findViewById(R.id.viewlipper);
         imgCart = view.findViewById(R.id.imgCart);
         tvCartItemCount = view.findViewById(R.id.tvCartItemCount);
-        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
+        rvListProductCategory = view.findViewById(R.id.rvListProductCategory);
     }
     void LoadDataProducts(Context context){
         listProducts = Utils.LoadDaTaProducts(context);
@@ -205,6 +208,9 @@ public class HomeFragment extends Fragment implements ProductAdapter.UserCallBac
             }
         }
     };
+    void LoadDataProductsInCategory(Context context, String categoryId){
+        listProductsCategory = Utils.LoadDataProductInCategory(context, categoryId);
+    }
 
     @Override
     public void onItemClick(String tenSanPham, String GiaTien, String moTa, String srcAnh) {
@@ -215,4 +221,5 @@ public class HomeFragment extends Fragment implements ProductAdapter.UserCallBac
         i.putExtra("srcAnh", srcAnh);
         startActivity(i);
     }
+
 }

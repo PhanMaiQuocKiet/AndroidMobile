@@ -1,156 +1,150 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/swipeRefreshLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".View.fragment.HomeFragment">
-    <FrameLayout
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarmanhinhchinh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/fragmant_reload">
-        <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_height="?attr/actionBarSize">
+
+        <Button
+            android:id="@+id/search_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/custom_search_bar"
+            android:drawableEnd="@drawable/baseline_search_24"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="Search..."
+            android:textAlignment="viewStart"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/imgCart"
+            android:layout_gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/imgCart"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:contentDescription="TODO"
+                android:src="@drawable/icon_cart"
+                android:layout_marginRight="10dp"/>
+
+            <TextView
+                android:id="@+id/tvCartItemCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textSize="20sp"
+                android:textColor="@color/white"
+                android:layout_centerInParent="true"
+                android:textStyle="bold"
+                android:background="@drawable/circle_background"
+                android:gravity="end"
+                />
+
+        </RelativeLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawlayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <androidx.drawerlayout.widget.DrawerLayout
-                android:id="@+id/drawlayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+            <ViewFlipper
+                android:id="@+id/viewlipper"
+                android:layout_width="410dp"
+                android:layout_height="200dp">
 
-                <LinearLayout
+                <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:src="@drawable/pic1_h200"
+                    android:scaleType="centerCrop"/>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/pic2_h200"
+                    android:scaleType="centerCrop"/>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/pic3_h200"
+                    android:scaleType="centerCrop"/>
+
+            </ViewFlipper>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical">
-
-                    <!-- Toolbar -->
-                    <androidx.appcompat.widget.Toolbar
-                        android:id="@+id/toolbarmanhinhchinh"
-                        android:layout_width="match_parent"
-                        android:layout_height="?attr/actionBarSize">
-
-                        <Button
-                            android:id="@+id/search_bar"
-                            android:layout_width="wrap_content"
-                            android:layout_height="40dp"
-                            android:layout_margin="10dp"
-                            android:background="@drawable/custom_search_bar"
-                            android:drawableEnd="@drawable/baseline_search_24"
-                            android:paddingLeft="10dp"
-                            android:paddingRight="10dp"
-                            android:text="Search..."
-                            android:textAlignment="viewStart"
-                            android:textAllCaps="false"
-                            android:textColor="@color/white" />
-
-                        <RelativeLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_above="@+id/imgCart"
-                            android:layout_gravity="center_vertical">
-
-                            <ImageView
-                                android:id="@+id/imgCart"
-                                android:layout_width="50dp"
-                                android:layout_height="wrap_content"
-                                android:contentDescription="TODO"
-                                android:src="@drawable/icon_cart"
-                                android:layout_marginRight="10dp"/>
-
-                            <TextView
-                                android:id="@+id/tvCartItemCount"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="0"
-                                android:textSize="20sp"
-                                android:textColor="@color/white"
-                                android:layout_centerInParent="true"
-                                android:textStyle="bold"
-                                android:background="@drawable/circle_background"
-                                android:gravity="end"
-                                />
-
-                        </RelativeLayout>
-
-                    </androidx.appcompat.widget.Toolbar>
-
-                    <!-- ViewFlipper -->
-                    <ViewFlipper
-                        android:id="@+id/viewlipper"
-                        android:layout_width="410dp"
-                        android:layout_height="200dp">
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:src="@drawable/pic1_h200"
-                            android:scaleType="centerCrop"/>
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:src="@drawable/pic2_h200"
-                            android:scaleType="centerCrop"/>
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:src="@drawable/pic3_h200"
-                            android:scaleType="centerCrop"/>
-
-                    </ViewFlipper>
-
-                    <!-- Category -->
-                    <LinearLayout
+                    <TextView
+                        android:id="@+id/tvQuanAo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/category"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="start"
-                            android:paddingLeft="20dp"
-                            android:text="Products"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/size30dp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/showmore"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="end"
-                            android:paddingRight="20dp"
-                            android:text="View all"
-                            android:textColor="#64D3E1"
-                            android:textSize="@dimen/size20dp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <!-- RecyclerView -->
+                        android:gravity="start"
+                        android:paddingLeft="20dp"
+                        android:text="Sản Phẩm"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/size30dp"
+                        android:textStyle="bold" />
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rvListProduct"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
+                        android:layout_height="wrap_content" />
 
                 </LinearLayout>
-
-                <!-- NavigationView -->
-                <com.google.android.material.navigation.NavigationView
-                    android:id="@+id/navigationview"
+                <TextView
+                    android:id="@+id/category"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:paddingLeft="20dp"
+                    android:text="Quần Áo"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/size30dp"
+                    android:textStyle="bold" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvListProductCategory"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="start">
-                </com.google.android.material.navigation.NavigationView>
-
-            </androidx.drawerlayout.widget.DrawerLayout>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </FrameLayout>
+                    android:layout_height="wrap_content" />
 
 
-</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/navigationview"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start" />
+
+    </androidx.drawerlayout.widget.DrawerLayout>
+
+</LinearLayout>
+

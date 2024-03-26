@@ -1,16 +1,11 @@
-package com.example.banhang.View.RecyclerViewProduct;
+package com.example.banhang.View.RecycleViewDonHangTheoTheLoai;
 
-import static androidx.core.content.ContextCompat.startActivity;
-
-import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -20,42 +15,39 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.banhang.View.RecycleViewDonHang.DonHang;
+import com.example.banhang.View.RecyclerViewProduct.*;
 import com.example.banhang.R;
-import com.example.banhang.View.DetailActivity;
-import com.example.banhang.View.RecyclerViewCategory.CategoryAdapter;
-import com.example.banhang.database.CreateDatabase;
+import com.example.banhang.database.*;
 
 import java.util.ArrayList;
 
-public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
-    ArrayList<Products> listProducts ;
-    CategoryAdapter.OnItemClickListener mListener;
-    CreateDatabase databaseHelper;
+public class ProductsInCategoryAdapter extends RecyclerView.Adapter<ProductsInCategoryAdapter.ProductsInCategoryViewHolder>{
+    ArrayList<Products> lstProducts ;
     Context context;
-    UserCallBack userCallBack;
-    public ProductAdapter(){};
-    public ProductAdapter(ArrayList<Products> listProducts , CreateDatabase  database , UserCallBack userCallBack){
-        this.listProducts = listProducts;
-        this.databaseHelper = database;
+    CreateDatabase databaseHelper;
+   UserCallBack userCallBack;
+    public ProductsInCategoryAdapter(ArrayList<Products> lstProducts, CreateDatabase databaseHelper, UserCallBack userCallBack){
+        this.lstProducts = lstProducts;
+        this.databaseHelper =databaseHelper;
         this.userCallBack = userCallBack;
+
     }
     @NonNull
     @Override
-    public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ProductsInCategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
-        LayoutInflater inflater = LayoutInflater.from(context);
-        //Nạp layout cho view biểu diễn phần từ User
-        View userView = inflater.inflate(R.layout.layout_item_product,parent,false);
-        //
-        ProductAdapter.ProductViewHolder viewHolder = new   ProductAdapter.ProductViewHolder(userView);
+        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        View view = layoutInflater.inflate(R.layout.layout_item_product_category,parent,false);
+        ProductsInCategoryAdapter.ProductsInCategoryViewHolder viewHolder = new  ProductsInCategoryAdapter.ProductsInCategoryViewHolder(view);
         return viewHolder;
     }
-    @SuppressLint("SetTextI18n")
+
     @Override
-    public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ProductsInCategoryViewHolder holder, int position) {
         CreateDatabase createDatabase = new CreateDatabase(context);
         //Lấy từng item của dữ liệu
-        Products item = listProducts.get(position);
+        Products item = lstProducts.get(position);
 
         //gán vào item của view
         holder.tvName.setText(item.getName());
@@ -77,30 +69,28 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                 }
             }
         });
-
         //Lấy sự kiện
         holder.itemView.setOnClickListener(view -> userCallBack.onItemClick(item.getName(),item.getPrice(),item.getDes(),item.getImage()));
+
     }
 
     @Override
     public int getItemCount() {
-        return listProducts.size();
+        return lstProducts.size();
     }
 
-    static class ProductViewHolder extends RecyclerView.ViewHolder{
+    static class ProductsInCategoryViewHolder extends RecyclerView.ViewHolder{
         ImageView imgAnhSanPham;
         TextView tvName,tvGia;
         CheckBox cbYeuThich;
-        public ProductViewHolder(@NonNull View itemView) {
+        public ProductsInCategoryViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvName = itemView.findViewById(R.id.tvTenProducts);
-            tvGia = itemView.findViewById(R.id.tvGiaSanPham);
-            cbYeuThich = itemView.findViewById(R.id.cbYeuThich);
-            imgAnhSanPham = itemView.findViewById(R.id.imgAnhSanPham);
+            tvName = itemView.findViewById(R.id.tvTenProducts_Category);
+            tvGia = itemView.findViewById(R.id.tvGiaSanPham_Category);
+            cbYeuThich = itemView.findViewById(R.id.cbYeuThich_Category);
+            imgAnhSanPham = itemView.findViewById(R.id.imgAnhSanPham_Category);
         }
-
     }
-    //insert value thông tin sản phẩm yêu thích
     public void ThemSanPhamYeuThich(String tenSanPham,String idSanPham,Context context){
         CreateDatabase createDatabase = new CreateDatabase(context);
 
@@ -138,5 +128,4 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     public interface UserCallBack{
         void onItemClick(String tenSanPham , String GiaTien, String moTa , String srcAnh);
     }
-
 }

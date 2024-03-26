@@ -51,8 +51,7 @@ public class DetailActivity extends AppCompatActivity {
         String giaTien = getIntent().getStringExtra("giaTien");
 
         SharedPreferences sharedPreferences = getApplication().getSharedPreferences("tk_mk login", Context.MODE_PRIVATE);
-        String tenDangNhap = sharedPreferences.getString("hovaten","");
-        int[] soLuong = {0};
+        String tenDangNhap = sharedPreferences.getString("Username","");
         //Gan Dữ liêu cho detail
         imgAnhSanPham.setImageBitmap(Utils.convertToBitmapFromAssets(getApplication(),anhSanPham));
         tvTenSanPham.setText(tenSanPham);
@@ -70,8 +69,7 @@ public class DetailActivity extends AppCompatActivity {
         //Neu Chua : chuyen sang trang cap nhat thong tin khach hang
         //Neu Roi : hien thi man hinh dialog Xac Nhan Mua
         // => luu du lieu vao database donHang va ...
-        SharedPreferences duLieuNguoiDung = getApplication().getSharedPreferences("ThongTinNguoiDung",Context.MODE_PRIVATE);
-        String tenKhachHang =  duLieuNguoiDung.getString("tenKhachHang",null);
+        String tenKhachHang =createDatabase.GetCLHoVaTenKhachHang_Detail(tenDangNhap);
 
 
 
@@ -79,17 +77,12 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                     // Kiểm tra nếu người dùng đã nhập tên khách hàng
-                if(tenKhachHang.equals("")){
+                if(tenKhachHang == null){
                         Toast.makeText(getApplication(),"Bạn Cần Cập Nhật thông tin tài khoản đẻ được thêm vào giỏ hàng",Toast.LENGTH_SHORT).show();
                         Fragment fm ;
                         fm = new AboutFragment();
                         loadFragment(fm);
-                    }
-                    else {
-                    Fragment homeFragment = getSupportFragmentManager().findFragmentById(R.id.mainFragment_Detail);
-                    if (homeFragment instanceof HomeFragment) {
-                        ((HomeFragment) homeFragment).reloadFragment();
-                    }
+                } else {
                     ThemSanPhamVaoGioHang(tenSanPham, tenDangNhap);
                 }
             }
